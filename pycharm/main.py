@@ -1,6 +1,5 @@
 import re
-
-
+import traceback
 
 list_id = []
 list_name = []
@@ -25,7 +24,7 @@ class Record:
                 else:
                     print("pls enter a valid number")
             except Exception as e :
-                print(e)
+                traceback.print_exc()
 
 
     def menu(self,userInput):
@@ -88,38 +87,86 @@ class Record:
         self.backToMenu()
     def removeRecord(self):
         userInputRemove = 0
+        def removeLine(self,line_number):
+            # asagida dosyayi acip, istedigin line i silip, yenideni duzenliyor. senin removeListten secilen item in
+            #hangi line da oldugunu bulman lazim
+
+
+
+            # Prompt the user for the file name and line number to remove
+            file_name = open("C:/Python/Fundemantel/Fethullah_Cucu_Demo.txt")
+            # Open the file for reading and store its contents in a list
+            with open(file_name, "r") as f:
+                lines = f.readlines()
+
+            # Remove the specified line from the list
+            del lines[line_number - 1]
+
+            # Prompt the user for the new content to replace the remaining lines
+            new_content = []
+            while True:
+                line = input("Enter new line (or 'q' to quit): ")
+                if line == 'q':
+                    break
+                new_content.append(line)
+
+            # Open the file for writing and write the new content to it
+            with open(file_name, "w") as f:
+                for line in new_content:
+                    f.write(line + "\n")
+
+
+
         while True:
             try:
-                userInputRemove = int(input ("which information you want to search?\n1-Id\n2-name\n3-surname\n5-age\n6-mail"))
-                if userInputRemove < 5 and userInputRemove > 0:
+                userInputRemove = int(input ("which information you want to search?\n1-Id\n2-name\n3-surname\n4-age\n5-mail"))
+                if userInputRemove < 6 and userInputRemove > 0:
                     break
                 else:
                     print("pls enter a valid number")
             except Exception as e :
-                print("remove e "+ e )
+                print("remove "+ e )
+        #--------------------------------------------------
+        # Open the file for reading
+        with open("C:/Python/Fundemantel/Fethullah_Cucu_Demo.txt", "r") as f:
+            lines = f.readlines() # everyline is an item into this "lines"array
+            split_lines = []
+            removeList = []
+            # Loop through each line and split it by the "-" character
+            for line in lines:
+                split_line = line.split("-")
+                if len(split_line) < 5:
+                    print(f"bad data format on line {split_line}")
+                else:
+                split_lines.append(split_line)
 
-        if userInputRemove == 1:
-            userInput1 = input("what is the number of user?")
-            with open("C:/Python/Fundemantel/Fethullah_Cucu_Demo.txt", "a+", encoding=("utf-8")) as File:
-                for line in File:
-                    line = line.strip()
-                    line = line.split("-")
-                    print("line worked")
-                    if line[0] == userInput1:
-                        lines = File.readlines()
-                        del lines[userInput1+1]
-                        print("line0 worked")
-                        with open("C:/Python/Fundemantel/Fethullah_Cucu_Demo.txt", "a+", encoding=("utf-8")) as File1:
-                            File1.writelines(lines)
-                            print("second with worked")
+            if userInputRemove == 1:
+                requestedId = input("which name you looking for?")
+                for i in split_lines:
+                    if requestedId in i[0]:
+                        removeList.append(i)
+                        print(i)
+            if userInputRemove == 2:
+                requestedName = input("which name you looking for?")
+                for i in split_lines:
+                    if requestedName in i[1]:
+                        print(i)
+            if userInputRemove == 3:
+                requestedSurname = input("which surname you looking for?")
+                for i in split_lines:
+                    if requestedSurname in i[2]:
+                        print(i)
+            if userInputRemove == 4:
+                requestedAge = input("which age you looking for?")
+                for i in split_lines:
+                    if requestedAge in i[3]:
+                        print(i)
+            if userInputRemove == 5:
+                requestedMail = input("which mail you looking for?")
+                for i in split_lines:
+                    if requestedMail in i[4]:
+                        print(i)
 
-
-
-
-
-
-
-                File.close()
     def listRecord(self):
         File = open("C:/Python/Fundemantel/Fethullah_Cucu_Demo.txt", "r+", encoding=("utf-8"))
         x = File.readlines()
